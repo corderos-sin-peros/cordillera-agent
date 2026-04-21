@@ -196,6 +196,13 @@ class DelegacionScraper:
             if date is None:
                 continue
 
+            # Filtrar URLs de navegación: slugs muy cortos son links de menú, no artículos.
+            # Ej: /2022/01/20/senda/ → slug "senda" (5 chars) → descartar
+            slug = full_url.rstrip("/").split("/")[-1]
+            if len(slug) < 12:
+                logger.debug(f"[{self.source.delegacion_id}] URL de navegación ignorada: {full_url}")
+                continue
+
             # Buscar el título: subir al padre del link y buscar h6/h5/h4/h3/h2
             title = text  # fallback = texto del link
             parent = a.parent
