@@ -1,4 +1,69 @@
 {
-  "generated_at": "2026-04-21T00:00:00+00:00",
-  "assets": {}
+  "generated_at": "2026-04-21T15:42:15.671288+00:00",
+  "assets": {
+    "G-19": {
+      "status": "abierto",
+      "statusSince": "2026-03-01",
+      "confianza": 100,
+      "respaldo": "Sin eventos registrados",
+      "sourceUrl": "",
+      "historial": []
+    },
+    "G-21": {
+      "status": "abierto",
+      "statusSince": "2026-03-01",
+      "confianza": 100,
+      "respaldo": "Sin eventos registrados",
+      "sourceUrl": "",
+      "historial": []
+    },
+    "G-25": {
+      "status": "abierto",
+      "statusSince": "2026-03-01",
+      "confianza": 100,
+      "respaldo": "Sin eventos registrados",
+      "sourceUrl": "",
+      "historial": []
+    },
+    "G-251": {
+      "status": "abierto",
+      "statusSince": "2026-03-01",
+      "confianza": 100,
+      "respaldo": "Sin eventos registrados",
+      "sourceUrl": "",
+      "historial": []
+    },
+    "G-345": {
+      "status": "abierto",
+      "statusSince": "2026-03-01",
+      "confianza": 100,
+      "respaldo": "Sin eventos registrados",
+      "sourceUrl": "",
+      "historial": []
+    },
+    "G-455": {
+      "status": "cerrado",
+      "statusSince": "2026-04-02",
+      "confianza": 75,
+      "respaldo": "Cierre del acceso vehicular al Embalse El Yeso: prohíben ingreso desde abril hasta agosto por condiciones climáticas y seguridad\n\nCierre del acceso vehicular al…",
+      "sourceUrl": "https://dppcordillera.dpp.gob.cl/2026/04/02/cierre-del-acceso-vehicular-al-embalse-el-yeso-prohiben-ingreso-desde-abril-hasta-agosto-por-condiciones-climaticas-y-seguridad/",
+      "historial": [
+        {
+          "fecha": "2026-04-02",
+          "status": "cerrado",
+          "nota": "Cierre del acceso vehicular al Embalse El Yeso: prohíben ingreso desde abril hasta agosto por condiciones climáticas y s…",
+          "fuente": "resolucion",
+          "ref": "https://dppcordillera.dpp.gob.cl/2026/04/02/cierre-del-acceso-vehicular-al-embalse-el-yeso-prohiben-ingreso-desde-abril-hasta-agosto-por-condiciones-climaticas-y-seguridad/"
+        }
+      ]
+    },
+    "G-465": {
+      "status": "abierto",
+      "statusSince": "2026-03-01",
+      "confianza": 100,
+      "respaldo": "Sin eventos registrados",
+      "sourceUrl": "",
+      "historial": []
+    }
+  }
 }
