@@ -27,9 +27,9 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 
 ASSET_SOURCE_MAP: dict[str, list[str]] = {
-    "G-21":  ["lobarnechea"],
-    "G-19":  ["lobarnechea"],
-    "G-251": ["lobarnechea"],
+    "G-21":  ["lobarnechea", "dpr_metropolitana"],
+    "G-19":  ["lobarnechea", "dpr_metropolitana"],
+    "G-251": ["lobarnechea", "dpr_metropolitana"],
     "G-25":  ["dpp_cordillera"],
     "G-345": ["dpp_cordillera"],
     "G-455": ["dpp_cordillera"],
