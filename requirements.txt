@@ -1,0 +1,12 @@
+# Cordillera Agent — dependencias
+
+# Core: solo stdlib (sqlite3, re, logging, argparse, dataclasses, enum)
+# Sin dependencias externas para el core.
+
+# Scraping real (requerido para fuentes online):
+httpx>=0.27
+beautifulsoup4>=4.12
+lxml>=5.0           # parser HTML más robusto para bs4
+
+# WhatsApp polling (opcional — requiere Chrome):
+# playwright>=1.40
