@@ -281,16 +281,19 @@ class DelegacionScraper:
 
         articles = []
         for url, title, date in all_links[:self.max_articles]:
-            full_text_check = title
-            if not _is_relevant(full_text_check) and title:
-                # Filtro rápido por título — si no pasa, igual fetcha si es ambiguo
+            title_is_relevant = _is_relevant(title) if title else False
+
+            # DPP Cordillera: títulos descriptivos → filtro por título es seguro.
+            # DPR Metropolitana: títulos genéricos ("Medidas temporada invernal")
+            # que no contienen keywords aunque el cuerpo sí tenga info de rutas.
+            # Para DPR: siempre fetchear el cuerpo y filtrar después.
+            if self.source.delegacion_id == "dpp_cordillera" and title and not title_is_relevant:
                 logger.debug(f"[{self.source.delegacion_id}] Ignorado por título: {title[:70]}")
                 continue
 
             body = self._fetch_article_body(url)
             if not body:
-                # Sin body pero título relevante — usar título como texto
-                if _is_relevant(title):
+                if title_is_relevant:
                     body = title
                 else:
                     continue
