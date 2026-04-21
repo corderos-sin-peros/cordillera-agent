@@ -35,10 +35,11 @@ jobs:
       - name: Export status.json
         run: python export_status.py
 
-      - name: Commit & push status.json
+      - name: Commit & push
         run: |
           git config user.name  "Cordillera Agent [bot]"
           git config user.email "cordillera-agent@users.noreply.github.com"
           git add data/status.json
+          git add cordillera.db
           git diff --cached --quiet || git commit -m "chore: update status.json [$(date -u '+%Y-%m-%d %H:%M UTC')]"
           git push
