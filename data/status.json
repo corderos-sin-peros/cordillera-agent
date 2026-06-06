@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-06T02:31:51.333892+00:00",
+  "generated_at": "2026-06-06T08:26:50.058402+00:00",
   "assets": {
     "G-19": {
       "status": "abierto",
@@ -10,12 +10,27 @@
       "historial": []
     },
     "G-21": {
-      "status": "abierto",
-      "statusSince": "2026-03-01",
-      "confianza": 100,
-      "respaldo": "Sin eventos registrados",
-      "sourceUrl": "",
-      "historial": []
+      "status": "cerrado",
+      "statusSince": "2026-06-06",
+      "confianza": 75,
+      "respaldo": "Disfruta Lo Barnechea\n\nNoticias Todas las Categorías Adulto mayor Centro de Desarrollo Laboral Cultura Deportes Educación Emprende Espacio Público Innovación In…",
+      "sourceUrl": "https://lobarnechea.cl/Noticias/?page=2",
+      "historial": [
+        {
+          "fecha": "2026-06-06",
+          "status": "cerrado",
+          "nota": "Disfruta Lo Barnechea\n\nNoticias Todas las Categorías Adulto mayor Centro de Desarrollo Laboral Cultura Deportes Educació…",
+          "fuente": "resolucion",
+          "ref": "https://lobarnechea.cl/Noticias/?page=2"
+        },
+        {
+          "fecha": "2026-06-06",
+          "status": "cerrado",
+          "nota": "Disfruta Lo Barnechea\n\nNoticias Todas las Categorías Adulto mayor Centro de Desarrollo Laboral Cultura Deportes Educació…",
+          "fuente": "resolucion",
+          "ref": "https://lobarnechea.cl/Noticias/"
+        }
+      ]
     },
     "G-25": {
       "status": "abierto",
