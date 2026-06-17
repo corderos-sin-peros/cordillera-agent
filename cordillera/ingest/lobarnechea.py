@@ -7,6 +7,9 @@ Fuente autoritativa para rutas del sector oriente:
 
 URL base: https://lobarnechea.cl/Noticias/
 source_id fijo: "lobarnechea"
+
+Nota: El sitio NO incluye fechas en las URLs. La fecha viene en el
+cuerpo del artículo como "Fecha DD Mes YYYY".
 """
 
 from __future__ import annotations
@@ -58,6 +61,20 @@ def _extract_date_from_url(url: str) -> Optional[datetime]:
 
 
 def _extract_date_from_text(text: str) -> Optional[datetime]:
+    # Formato lobarnechea.cl: "Fecha 11 Junio 2026"
+    m = re.search(
+        r"[Ff]echa\s+(\d{1,2})\s+(" + "|".join(_MESES.keys()) + r")\s+(\d{4})",
+        text, re.IGNORECASE,
+    )
+    if m:
+        mes = _MESES.get(m.group(2).lower())
+        if mes:
+            try:
+                return datetime(int(m.group(3)), mes, int(m.group(1)))
+            except ValueError:
+                pass
+
+    # Fallback: "11 de junio de 2026"
     m = re.search(
         r"(\d{1,2})\s+de\s+(" + "|".join(_MESES.keys()) + r")\s+de\s+(\d{4})",
         text, re.IGNORECASE,
@@ -118,7 +135,12 @@ class _Scraper:
             return None
 
     def _extract_links(self, html: str, page_url: str) -> list[tuple[str, str, Optional[datetime]]]:
-        """Extrae (url, título, fecha) del listado."""
+        """Extrae (url, título, fecha) del listado.
+
+        Estrategia 1: links con /YYYY/MM/DD/ en URL (otros sitios WordPress).
+        Estrategia 2: headings con links — cubre lobarnechea.cl que no usa fechas en URL.
+        Estrategia 3: fallback links con texto relevante — último recurso.
+        """
         BeautifulSoup = self._bs4
         soup = BeautifulSoup(html, "html.parser")
         results: list[tuple[str, str, Optional[datetime]]] = []
@@ -135,7 +157,6 @@ class _Scraper:
             date = _extract_date_from_url(full_url)
             if date is None:
                 continue
-
             title = a.get_text(strip=True)
             parent = a.parent
             for _ in range(5):
@@ -152,11 +173,10 @@ class _Scraper:
                     parent = parent.parent
                     continue
                 break
-
             seen.add(full_url)
             results.append((full_url, title, date))
 
-        # Estrategia 2: headings que contienen links
+        # Estrategia 2: headings con links (lobarnechea.cl no usa fechas en URL)
         if not results:
             for tag in ["h2", "h3", "h4", "h1"]:
                 for heading in soup.find_all(tag):
@@ -166,12 +186,18 @@ class _Scraper:
                     full_url = urljoin(page_url, a["href"])
                     if not _same_domain(full_url) or full_url in seen:
                         continue
+                    # Excluir URLs de paginación y categorías
+                    if any(x in full_url for x in ["?page=", "/Categoria/", "/categoria/", "#"]):
+                        continue
                     title = heading.get_text(strip=True)
-                    date = _extract_date_from_url(full_url)
+                    if not title or len(title) < 10:
+                        continue
+                    # fecha viene del body del artículo — se extrae en _fetch_body
                     seen.add(full_url)
-                    results.append((full_url, title, date))
+                    results.append((full_url, title, None))
 
-        # Estrategia 3: links con texto relevante (fallback)
+        # Estrategia 3: fallback — links con texto relevante
+        # Solo se ejecuta si las estrategias anteriores no encontraron nada
         if not results:
             for a in soup.find_all("a", href=True):
                 text = a.get_text(strip=True)
@@ -220,17 +246,16 @@ class _Scraper:
 
         articles = []
         for url, title, date in all_links[:self.max_articles]:
-            # Filtro rápido por título
+            # Filtro rápido por título antes de descargar el body
             if title and not _is_relevant(title):
                 logger.debug(f"[lobarnechea] Ignorado por título: {title[:70]}")
                 continue
 
             body = self._fetch_body(url)
             if not body:
-                if title and _is_relevant(title):
-                    body = title
-                else:
-                    continue
+                # Sin body real no hay información confiable — descartar
+                logger.debug(f"[lobarnechea] Sin body real, descartado: {url}")
+                continue
 
             full_text = f"{title}\n\n{body}" if title else body
             if not _is_relevant(full_text):
